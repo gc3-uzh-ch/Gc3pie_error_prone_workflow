@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 
+import configobj
 import os
 import os.path
 import sys
@@ -12,42 +13,63 @@ from gc3libs.cmdline import SessionBasedScript, _Script
 from gc3libs.workflow import SequentialTaskCollection, ParallelTaskCollection
 import gc3libs.utils
 
+c = configobj.ConfigObj(config_file, configspec = config_specs, stringify=True)
+
 ############################# Basic Applications/Tasks ###################################
 
 
 class A(Application):
-    def __init__(self, joke, **kwargs):
+    def __init__(self, **kwargs):
 
-        gc3libs.log.info("A")
+        gc3libs.log.info("Initialising A")
 
         gc3libs.Application.__init__(self,
-                                     arguments = ["/bin/myscript.py", "-o", "/path/to/A/out"],
+                                     arguments = [c['script_A'], "-i", c['input_A'], "-o", c['output_A']],
                                      inputs = [],
                                      outputs = [],
                                      #join = True,
-                                     stdout = "stdout.log",
-                                     stderr = "stderr.log",
+                                     stdout = c['stdout_name'],
+                                     stderr = c['stderr_name'],
                                      **kwargs
                                      )
 
     def terminated(self):
-        gc3libs.log.info("A is NEVER done.")
-        self.execution.returncode = 1
-        self.whatever = 10
+        gc3libs.log.info("Testing whether A is done")
 
-        # read logfile
-        with open(os.path.join(self.output_directory, self.stdout), "r"):
-            1==1
-            #do stuff
+        # If the application has terminated o.k. (self.execution.returncode == 0),
+        #   Check wether all resultfiles are o.k. If yes: Good, If no: Freeze.
+        # If not: Save error and freeze.
 
-        # delete log files
+        if self.execution.returncode == 0:
+            gc3libs.log.info("A claims to be successful: self.execution.returncode: {}".format(self.execution.returncode))
+            # Check if result file exists (Later: and complies to some rules).
+            if not os.path.isfile(c['output_A']):
+                gc3libs.log.info("A has not produced an output file.")
+                self.execution.returncode = 1
+                self.status = FREEZE
 
-        # check whether output file exists.
-        # otherwise: exitstatus to failure.
+            else:
+                gc3libs.log.info("A has run successfully to completion.")
+                # Now, clean up
+                # Delete all log files.
+                os.remove(os.path.join(self.output_dir, c['stdout_name']))
+                os.remove(os.path.join(self.output_dir, c['stderr_name']))
 
-        self.execution.state = [TERMINATED, RUNNING, STOPPED, SUBMITTED.]
-        self.execution.returncode = []
-        self.error = last_line_of_log_file
+        else:
+            gc3libs.log.info("A is not successful: self.execution.returncode: {}".format(self.execution.returncode))
+            # Check if there is stderr.
+            if not os.path.isfile(c['stderr_name']):
+                self.error_tag = ""
+            else:
+                # Create a tag from the last line in stderr.
+                with open(os.path.join(self.output_directory, self.stderr), "r") as fh:
+                    for line in fh:
+                        pass
+                    self.error_tag = line
+
+        self.status = FREEZE
+
+        #self.execution.state in [TERMINATED, RUNNING, STOPPED, SUBMITTED.]
 
 
 class B(Application):
