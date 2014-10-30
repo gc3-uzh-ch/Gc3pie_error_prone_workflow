@@ -3,6 +3,7 @@
 import configobj
 import os
 import os.path
+import sqlalchemy as sqla
 import sys
 
 ## Interface to Gc3libs
@@ -11,15 +12,19 @@ import gc3libs
 from gc3libs import Application, Run, Task
 from gc3libs.cmdline import SessionBasedScript, _Script
 from gc3libs.workflow import SequentialTaskCollection, ParallelTaskCollection
+from gc3libs.persistence.accessors import GetValue
 import gc3libs.utils
 
-c = configobj.ConfigObj(config_file, configspec = config_specs, stringify=True)
+config_file = '/Users/elkeschaper/Python_projects/Gc3pie_error_prone_workflow/test_defaults.ini'
+c = configobj.ConfigObj(config_file, stringify=True)
+#c = configobj.ConfigObj(config_file, configspec = config_specs, stringify=True)
+
 
 ############################# Basic Applications/Tasks ###################################
 
 
 class A(Application):
-    def __init__(self, **kwargs):
+    def __init__(self, jokes, **kwargs):
 
         gc3libs.log.info("Initialising A")
 
@@ -27,9 +32,10 @@ class A(Application):
                                      arguments = [c['script_A'], "-i", c['input_A'], "-o", c['output_A']],
                                      inputs = [],
                                      outputs = [],
-                                     #join = True,
+                                     join = True,
                                      stdout = c['stdout_name'],
                                      stderr = c['stderr_name'],
+                                     output_dir = c['output_A'],
                                      **kwargs
                                      )
 
@@ -37,8 +43,8 @@ class A(Application):
         gc3libs.log.info("Testing whether A is done")
 
         # If the application has terminated o.k. (self.execution.returncode == 0),
-        #   Check wether all resultfiles are o.k. If yes: Good, If no: Freeze.
-        # If not: Save error and freeze.
+        #   Check wether all resultfiles are o.k. If yes: Good, If no: FREEZE.
+        # If not: Save error and FREEZE.
 
         if self.execution.returncode == 0:
             gc3libs.log.info("A claims to be successful: self.execution.returncode: {}".format(self.execution.returncode))
@@ -46,7 +52,7 @@ class A(Application):
             if not os.path.isfile(c['output_A']):
                 gc3libs.log.info("A has not produced an output file.")
                 self.execution.returncode = 1
-                self.status = FREEZE
+                self.status = "FREEZE"
 
             else:
                 gc3libs.log.info("A has run successfully to completion.")
@@ -67,23 +73,23 @@ class A(Application):
                         pass
                     self.error_tag = line
 
-        self.status = FREEZE
+        self.status = "FREEZE"
 
         #self.execution.state in [TERMINATED, RUNNING, STOPPED, SUBMITTED.]
 
 
 class B(Application):
-    def __init__(self, joke, path_to_A_files, **kwargs):
+    def __init__(self, joke, **kwargs):
 
         gc3libs.log.info("B")
 
         gc3libs.Application.__init__(self,
-                                     arguments = ["/bin/myscript.py", "-i", os.path.join(path_to_A_files, joke), "$RANDOM"],
+                                     arguments = [c['script_B'], "-i", c['output_A'], "-o", c['output_B']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
                                      stdout = "stdout.log",
-                                     output_dir = "./results/B_{}".format(joke),
+                                     output_dir = c['output_B'],
                                      **kwargs
                                      )
 
@@ -163,8 +169,6 @@ class TestWorkflow(SessionBasedScript):
                 sqla.Column('cluster',            sqla.TEXT())    : GetValue(default=None) .execution.resource_name           ,#.ONLY(CodemlApplication), # cluster/compute element
                 sqla.Column('worker',             sqla.TEXT())    : GetValue(default=None) .hostname                          ,#.ONLY(CodemlApplication), # hostname of the worker node
                 sqla.Column('cpu',                sqla.TEXT())    : GetValue(default=None) .cpuinfo                           ,#.ONLY(CodemlApplication), # CPU model of the worker node
-                sqla.Column('codeml_walltime_h0', sqla.INTEGER()) : GetValue()             .time_used[0]                      ,#.ONLY(CodemlApplication), # time used by the codeml H0 run (sec)
-                sqla.Column('codeml_walltime_h1', sqla.INTEGER()) : GetValue()             .time_used[1]                      ,#.ONLY(CodemlApplication), # time used by the codeml H1 run (sec)
                 sqla.Column('requested_walltime', sqla.INTEGER()) : _get_requested_walltime_or_none                           , # requested walltime, in hours
                 sqla.Column('requested_cores',    sqla.INTEGER()) : GetValue(default=None) .requested_cores                   ,#.ONLY(CodemlApplication), # num of cores requested
                 sqla.Column('used_walltime',      sqla.INTEGER()) : GetValue(default=None) .execution.used_walltime           ,#.ONLY(CodemlApplication), # used walltime
@@ -202,7 +206,7 @@ class MainSequentialFlow(SequentialTaskCollection):
 
         gc3libs.log.info("\t Calling MainSequentialFlow.__init({})".format(jokes))
 
-        self.initial_task = A(jokes)
+        self.initial_task = A(self.jokes)
 
         SequentialTaskCollection.__init__(self, [self.initial_task], **kwargs)
 
@@ -244,7 +248,7 @@ class InnerSequentialFlow(SequentialTaskCollection):
         gc3libs.log.info("\t\t\t\tCalling InnerSequentialFlow.__init__ for joke: {}".format(self.joke))
 
         self.job_name = joke
-        initial_task = B(joke)
+        initial_task = B(self.joke)
         SequentialTaskCollection.__init__(self, [initial_task], **kwargs)
 
     def next(self, iterator):
@@ -260,6 +264,11 @@ class InnerSequentialFlow(SequentialTaskCollection):
         gc3libs.log.info("\t\t\t\tInnerSequentialFlow.terminated [%d]" % self.execution.returncode)
 
 
+def _get_requested_walltime_or_none(job):
+    if isinstance(job, gc3libs.application.codeml.CodemlApplication):
+        return job.requested_walltime.amount(hours)
+    else:
+        return None
 
 
 # run script
