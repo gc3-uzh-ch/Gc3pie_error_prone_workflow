@@ -29,7 +29,7 @@ class SplitSequenceFile(Application):
         self.c = config['split_sequence_file']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
+                                     arguments = [self.c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
@@ -83,7 +83,7 @@ class CreateAnnotateSequencePickle(Application):
         self.c = config['create_and_annotate_sequence_pickles']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
+                                     arguments = [self.c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
@@ -136,7 +136,7 @@ class CreateHMMPickles(Application):
         self.c = config['create_hmm_pickles']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
+                                     arguments = [self.c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
@@ -190,7 +190,7 @@ class AnnotateTRsFromHmmer(Application):
         self.c = config['annotate_TRs_from_hmmer']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
+                                     arguments = [self.c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
@@ -243,7 +243,7 @@ class AnnotateDeNovo(Application):
         self.c = config['annotate_de_novo']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
+                                     arguments = [self.c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
@@ -296,7 +296,7 @@ class CalculateSignificance(Application):
         self.c = config['calculate_significance']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
+                                     arguments = [self.c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
@@ -350,7 +350,7 @@ class MergeAndBasicFilter(Application):
         self.c = config['merge_and_basic_filter']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
+                                     arguments = [self.c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
@@ -404,7 +404,7 @@ class CalculateOverlap(Application):
         self.c = config['calculate_overlap']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
+                                     arguments = [self.c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
@@ -517,7 +517,7 @@ class RefineDenovo(Application):
         self.c = config['refine_denovo']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
+                                     arguments = [self.c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
@@ -571,7 +571,7 @@ class SerializeAnnotations(Application):
         self.c = config['serialize_annotations']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
+                                     arguments = [self.c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
