@@ -58,8 +58,8 @@ class SplitSequenceFile(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, self.c['stdout']))
-                os.remove(os.path.join(self.output_dir, self.c['stderr']))
+#                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+#                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -112,8 +112,8 @@ class CreateAnnotateSequencePickle(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, self.c['stdout']))
-                os.remove(os.path.join(self.output_dir, self.c['stderr']))
+#                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+#                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -165,8 +165,8 @@ class CreateHMMPickles(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, self.c['stdout']))
-                os.remove(os.path.join(self.output_dir, self.c['stderr']))
+#                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+#                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -219,8 +219,8 @@ class AnnotateTRsFromHmmer(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, self.c['stdout']))
-                os.remove(os.path.join(self.output_dir, self.c['stderr']))
+#                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+#                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -272,8 +272,8 @@ class AnnotateDeNovo(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, self.c['stdout']))
-                os.remove(os.path.join(self.output_dir, self.c['stderr']))
+#                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+#                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -325,8 +325,8 @@ class CalculateSignificance(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, self.c['stdout']))
-                os.remove(os.path.join(self.output_dir, self.c['stderr']))
+#                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+#                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -379,8 +379,8 @@ class MergeAndBasicFilter(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, self.c['stdout']))
-                os.remove(os.path.join(self.output_dir, self.c['stderr']))
+#                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+#                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -433,8 +433,8 @@ class CalculateOverlap(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, self.c['stdout']))
-                os.remove(os.path.join(self.output_dir, self.c['stderr']))
+#                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+#                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -546,8 +546,8 @@ class RefineDenovo(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, self.c['stdout']))
-                os.remove(os.path.join(self.output_dir, self.c['stderr']))
+#                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+#                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -600,8 +600,8 @@ class SerializeAnnotations(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, self.c['stdout']))
-                os.remove(os.path.join(self.output_dir, self.c['stderr']))
+#                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+#                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
