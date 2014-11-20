@@ -40,29 +40,29 @@ class SplitSequenceFile(Application):
                                      )
 
     def terminated(self):
-        gc3libs.log.info("Testing whether {} is done".format(self.__name__))
+        gc3libs.log.info("Testing whether {} is done".format(self.__class__.__name__))
 
         # If the application has terminated o.k. (self.execution.returncode == 0),
         #   Check wether all resultfiles are o.k. If yes: Good, If no: FREEZE.
         # If not: Save error and FREEZE.
 
         if self.execution.returncode == 0:
-            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
             if not os.path.isfile(c['output']):
-                gc3libs.log.info("{} has not produced an output file.".format(self.__name__))
+                gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
 
             else:
-                gc3libs.log.info("{} has run successfully to completion.".format(self.__name__))
+                gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
                 os.remove(os.path.join(self.output_dir, c['stdout']))
                 os.remove(os.path.join(self.output_dir, c['stderr']))
 
         else:
-            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
             if not os.path.isfile(c['stderr']):
                 self.error_tag = ""
@@ -94,29 +94,29 @@ class CreateAnnotateSequencePickle(Application):
                                      )
 
     def terminated(self):
-        gc3libs.log.info("Testing whether {} is done".format(self.__name__))
+        gc3libs.log.info("Testing whether {} is done".format(self.__class__.__name__))
 
         # If the application has terminated o.k. (self.execution.returncode == 0),
         #   Check wether all resultfiles are o.k. If yes: Good, If no: FREEZE.
         # If not: Save error and FREEZE.
 
         if self.execution.returncode == 0:
-            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
             if not os.path.isfile(c['output']):
-                gc3libs.log.info("{} has not produced an output file.".format(self.__name__))
+                gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
 
             else:
-                gc3libs.log.info("{} has run successfully to completion.".format(self.__name__))
+                gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
                 os.remove(os.path.join(self.output_dir, c['stdout']))
                 os.remove(os.path.join(self.output_dir, c['stderr']))
 
         else:
-            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
             if not os.path.isfile(c['stderr']):
                 self.error_tag = ""
@@ -147,29 +147,29 @@ class CreateHMMPickles(Application):
                                      )
 
     def terminated(self):
-        gc3libs.log.info("Testing whether {} is done".format(self.__name__))
+        gc3libs.log.info("Testing whether {} is done".format(self.__class__.__name__))
 
         # If the application has terminated o.k. (self.execution.returncode == 0),
         #   Check wether all resultfiles are o.k. If yes: Good, If no: FREEZE.
         # If not: Save error and FREEZE.
 
         if self.execution.returncode == 0:
-            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
             if not os.path.isfile(c['output']):
-                gc3libs.log.info("{} has not produced an output file.".format(self.__name__))
+                gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
 
             else:
-                gc3libs.log.info("{} has run successfully to completion.".format(self.__name__))
+                gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
                 os.remove(os.path.join(self.output_dir, c['stdout']))
                 os.remove(os.path.join(self.output_dir, c['stderr']))
 
         else:
-            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
             if not os.path.isfile(c['stderr']):
                 self.error_tag = ""
@@ -201,29 +201,29 @@ class AnnotateTRsFromHmmer(Application):
                                      )
 
     def terminated(self):
-        gc3libs.log.info("Testing whether {} is done".format(self.__name__))
+        gc3libs.log.info("Testing whether {} is done".format(self.__class__.__name__))
 
         # If the application has terminated o.k. (self.execution.returncode == 0),
         #   Check wether all resultfiles are o.k. If yes: Good, If no: FREEZE.
         # If not: Save error and FREEZE.
 
         if self.execution.returncode == 0:
-            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
             if not os.path.isfile(c['output']):
-                gc3libs.log.info("{} has not produced an output file.".format(self.__name__))
+                gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
 
             else:
-                gc3libs.log.info("{} has run successfully to completion.".format(self.__name__))
+                gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
                 os.remove(os.path.join(self.output_dir, c['stdout']))
                 os.remove(os.path.join(self.output_dir, c['stderr']))
 
         else:
-            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
             if not os.path.isfile(c['stderr']):
                 self.error_tag = ""
@@ -254,29 +254,29 @@ class AnnotateDeNovo(Application):
                                      )
 
     def terminated(self):
-        gc3libs.log.info("Testing whether {} is done".format(self.__name__))
+        gc3libs.log.info("Testing whether {} is done".format(self.__class__.__name__))
 
         # If the application has terminated o.k. (self.execution.returncode == 0),
         #   Check wether all resultfiles are o.k. If yes: Good, If no: FREEZE.
         # If not: Save error and FREEZE.
 
         if self.execution.returncode == 0:
-            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
             if not os.path.isfile(c['output']):
-                gc3libs.log.info("{} has not produced an output file.".format(self.__name__))
+                gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
 
             else:
-                gc3libs.log.info("{} has run successfully to completion.".format(self.__name__))
+                gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
                 os.remove(os.path.join(self.output_dir, c['stdout']))
                 os.remove(os.path.join(self.output_dir, c['stderr']))
 
         else:
-            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
             if not os.path.isfile(c['stderr']):
                 self.error_tag = ""
@@ -307,29 +307,29 @@ class CalculateSignificance(Application):
                                      )
 
     def terminated(self):
-        gc3libs.log.info("Testing whether {} is done".format(self.__name__))
+        gc3libs.log.info("Testing whether {} is done".format(self.__class__.__name__))
 
         # If the application has terminated o.k. (self.execution.returncode == 0),
         #   Check wether all resultfiles are o.k. If yes: Good, If no: FREEZE.
         # If not: Save error and FREEZE.
 
         if self.execution.returncode == 0:
-            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
             if not os.path.isfile(c['output']):
-                gc3libs.log.info("{} has not produced an output file.".format(self.__name__))
+                gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
 
             else:
-                gc3libs.log.info("{} has run successfully to completion.".format(self.__name__))
+                gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
                 os.remove(os.path.join(self.output_dir, c['stdout']))
                 os.remove(os.path.join(self.output_dir, c['stderr']))
 
         else:
-            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
             if not os.path.isfile(c['stderr']):
                 self.error_tag = ""
@@ -361,29 +361,29 @@ class MergeAndBasicFilter(Application):
                                      )
 
     def terminated(self):
-        gc3libs.log.info("Testing whether {} is done".format(self.__name__))
+        gc3libs.log.info("Testing whether {} is done".format(self.__class__.__name__))
 
         # If the application has terminated o.k. (self.execution.returncode == 0),
         #   Check wether all resultfiles are o.k. If yes: Good, If no: FREEZE.
         # If not: Save error and FREEZE.
 
         if self.execution.returncode == 0:
-            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
             if not os.path.isfile(c['output']):
-                gc3libs.log.info("{} has not produced an output file.".format(self.__name__))
+                gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
 
             else:
-                gc3libs.log.info("{} has run successfully to completion.".format(self.__name__))
+                gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
                 os.remove(os.path.join(self.output_dir, c['stdout']))
                 os.remove(os.path.join(self.output_dir, c['stderr']))
 
         else:
-            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
             if not os.path.isfile(c['stderr']):
                 self.error_tag = ""
@@ -415,29 +415,29 @@ class CalculateOverlap(Application):
                                      )
 
     def terminated(self):
-        gc3libs.log.info("Testing whether {} is done".format(self.__name__))
+        gc3libs.log.info("Testing whether {} is done".format(self.__class__.__name__))
 
         # If the application has terminated o.k. (self.execution.returncode == 0),
         #   Check wether all resultfiles are o.k. If yes: Good, If no: FREEZE.
         # If not: Save error and FREEZE.
 
         if self.execution.returncode == 0:
-            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
             if not os.path.isfile(c['output']):
-                gc3libs.log.info("{} has not produced an output file.".format(self.__name__))
+                gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
 
             else:
-                gc3libs.log.info("{} has run successfully to completion.".format(self.__name__))
+                gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
                 os.remove(os.path.join(self.output_dir, c['stdout']))
                 os.remove(os.path.join(self.output_dir, c['stderr']))
 
         else:
-            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
             if not os.path.isfile(c['stderr']):
                 self.error_tag = ""
@@ -528,29 +528,29 @@ class RefineDenovo(Application):
                                      )
 
     def terminated(self):
-        gc3libs.log.info("Testing whether {} is done".format(self.__name__))
+        gc3libs.log.info("Testing whether {} is done".format(self.__class__.__name__))
 
         # If the application has terminated o.k. (self.execution.returncode == 0),
         #   Check wether all resultfiles are o.k. If yes: Good, If no: FREEZE.
         # If not: Save error and FREEZE.
 
         if self.execution.returncode == 0:
-            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
             if not os.path.isfile(c['output']):
-                gc3libs.log.info("{} has not produced an output file.".format(self.__name__))
+                gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
 
             else:
-                gc3libs.log.info("{} has run successfully to completion.".format(self.__name__))
+                gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
                 os.remove(os.path.join(self.output_dir, c['stdout']))
                 os.remove(os.path.join(self.output_dir, c['stderr']))
 
         else:
-            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
             if not os.path.isfile(c['stderr']):
                 self.error_tag = ""
@@ -582,29 +582,29 @@ class SerializeAnnotations(Application):
                                      )
 
     def terminated(self):
-        gc3libs.log.info("Testing whether {} is done".format(self.__name__))
+        gc3libs.log.info("Testing whether {} is done".format(self.__class__.__name__))
 
         # If the application has terminated o.k. (self.execution.returncode == 0),
         #   Check wether all resultfiles are o.k. If yes: Good, If no: FREEZE.
         # If not: Save error and FREEZE.
 
         if self.execution.returncode == 0:
-            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
             if not os.path.isfile(c['output']):
-                gc3libs.log.info("{} has not produced an output file.".format(self.__name__))
+                gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
 
             else:
-                gc3libs.log.info("{} has run successfully to completion.".format(self.__name__))
+                gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
                 os.remove(os.path.join(self.output_dir, c['stdout']))
                 os.remove(os.path.join(self.output_dir, c['stderr']))
 
         else:
-            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__name__))
+            gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
             if not os.path.isfile(c['stderr']):
                 self.error_tag = ""
