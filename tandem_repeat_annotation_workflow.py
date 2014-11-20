@@ -64,7 +64,7 @@ class SplitSequenceFile(Application):
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
-            if not os.path.isfile(c['stderr']):
+            if not os.path.isfile(self.c['stderr']):
                 self.error_tag = ""
             else:
                 # Create a tag from the last line in stderr.
@@ -118,7 +118,7 @@ class CreateAnnotateSequencePickle(Application):
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
-            if not os.path.isfile(c['stderr']):
+            if not os.path.isfile(self.c['stderr']):
                 self.error_tag = ""
             else:
                 # Create a tag from the last line in stderr.
@@ -171,7 +171,7 @@ class CreateHMMPickles(Application):
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
-            if not os.path.isfile(c['stderr']):
+            if not os.path.isfile(self.c['stderr']):
                 self.error_tag = ""
             else:
                 # Create a tag from the last line in stderr.
@@ -225,7 +225,7 @@ class AnnotateTRsFromHmmer(Application):
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
-            if not os.path.isfile(c['stderr']):
+            if not os.path.isfile(self.c['stderr']):
                 self.error_tag = ""
             else:
                 # Create a tag from the last line in stderr.
@@ -278,7 +278,7 @@ class AnnotateDeNovo(Application):
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
-            if not os.path.isfile(c['stderr']):
+            if not os.path.isfile(self.c['stderr']):
                 self.error_tag = ""
             else:
                 # Create a tag from the last line in stderr.
@@ -331,7 +331,7 @@ class CalculateSignificance(Application):
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
-            if not os.path.isfile(c['stderr']):
+            if not os.path.isfile(self.c['stderr']):
                 self.error_tag = ""
             else:
                 # Create a tag from the last line in stderr.
@@ -385,7 +385,7 @@ class MergeAndBasicFilter(Application):
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
-            if not os.path.isfile(c['stderr']):
+            if not os.path.isfile(self.c['stderr']):
                 self.error_tag = ""
             else:
                 # Create a tag from the last line in stderr.
@@ -439,7 +439,7 @@ class CalculateOverlap(Application):
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
-            if not os.path.isfile(c['stderr']):
+            if not os.path.isfile(self.c['stderr']):
                 self.error_tag = ""
             else:
                 # Create a tag from the last line in stderr.
@@ -552,7 +552,7 @@ class RefineDenovo(Application):
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
-            if not os.path.isfile(c['stderr']):
+            if not os.path.isfile(self.c['stderr']):
                 self.error_tag = ""
             else:
                 # Create a tag from the last line in stderr.
@@ -606,7 +606,7 @@ class SerializeAnnotations(Application):
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if there is stderr.
-            if not os.path.isfile(c['stderr']):
+            if not os.path.isfile(self.c['stderr']):
                 self.error_tag = ""
             else:
                 # Create a tag from the last line in stderr.
