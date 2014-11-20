@@ -35,7 +35,7 @@ class SplitSequenceFile(Application):
                                      join = True,
                                      stdout = self.c['stdout'],
                                      stderr = self.c['stderr'],
-                                     output_dir = self.c['output'],
+                                     output_dir = self.c['logdir'],
                                      **kwargs
                                      )
 
@@ -89,7 +89,7 @@ class CreateAnnotateSequencePickle(Application):
                                      join = True,
                                      stdout = self.c['stdout'],
                                      stderr = self.c['stderr'],
-                                     output_dir = self.c['output'],
+                                     output_dir = self.c['logdir'],
                                      **kwargs
                                      )
 
@@ -142,7 +142,7 @@ class CreateHMMPickles(Application):
                                      join = True,
                                      stdout = self.c['stdout'],
                                      stderr = self.c['stderr'],
-                                     output_dir = self.c['output'],
+                                     output_dir = self.c['logdir'],
                                      **kwargs
                                      )
 
@@ -196,7 +196,7 @@ class AnnotateTRsFromHmmer(Application):
                                      join = True,
                                      stdout = self.c['stdout'],
                                      stderr = self.c['stderr'],
-                                     output_dir = self.c['output'],
+                                     output_dir = self.c['logdir'],
                                      **kwargs
                                      )
 
@@ -249,7 +249,7 @@ class AnnotateDeNovo(Application):
                                      join = True,
                                      stdout = self.c['stdout'],
                                      stderr = self.c['stderr'],
-                                     output_dir = self.c['output'],
+                                     output_dir = self.c['logdir'],
                                      **kwargs
                                      )
 
@@ -302,7 +302,7 @@ class CalculateSignificance(Application):
                                      join = True,
                                      stdout = self.c['stdout'],
                                      stderr = self.c['stderr'],
-                                     output_dir = self.c['output'],
+                                     output_dir = self.c['logdir'],
                                      **kwargs
                                      )
 
@@ -356,7 +356,7 @@ class MergeAndBasicFilter(Application):
                                      join = True,
                                      stdout = self.c['stdout'],
                                      stderr = self.c['stderr'],
-                                     output_dir = self.c['output'],
+                                     output_dir = self.c['logdir'],
                                      **kwargs
                                      )
 
@@ -410,7 +410,7 @@ class CalculateOverlap(Application):
                                      join = True,
                                      stdout = self.c['stdout'],
                                      stderr = self.c['stderr'],
-                                     output_dir = self.c['output'],
+                                     output_dir = self.c['logdir'],
                                      **kwargs
                                      )
 
@@ -523,7 +523,7 @@ class RefineDenovo(Application):
                                      join = True,
                                      stdout = self.c['stdout'],
                                      stderr = self.c['stderr'],
-                                     output_dir = self.c['output'],
+                                     output_dir = self.c['logdir'],
                                      **kwargs
                                      )
 
@@ -577,7 +577,7 @@ class SerializeAnnotations(Application):
                                      join = True,
                                      stdout = self.c['stdout'],
                                      stderr = self.c['stderr'],
-                                     output_dir = self.c['output'],
+                                     output_dir = self.c['logdir'],
                                      **kwargs
                                      )
 
