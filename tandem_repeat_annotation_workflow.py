@@ -17,7 +17,7 @@ import gc3libs.utils
 
 config_file = '/Users/elkeschaper/Python_projects/Gc3pie_error_prone_workflow/tandem_repeat_annotation_defaults.ini'
 config = configobj.ConfigObj(config_file, stringify=True)
-#c = configobj.ConfigObj(config_file, configspec = config_specs, stringify=True)
+#self.c = configobj.ConfigObj(config_file, configspeself.c = config_specs, stringify=True)
 
 
 ############################# Basic Applications/Tasks ###################################
@@ -26,16 +26,16 @@ class SplitSequenceFile(Application):
     def __init__(self, jokes, **kwargs):
 
         gc3libs.log.info("Initialising {}".format(self.__class__.__name__))
-        c = config['split_sequence_file']
+        self.c = config['split_sequence_file']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", c['input'], "-o", c['output'], c['extra']],
+                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
-                                     stdout = c['stdout'],
-                                     stderr = c['stderr'],
-                                     output_dir = c['output'],
+                                     stdout = self.c['stdout'],
+                                     stderr = self.c['stderr'],
+                                     output_dir = self.c['output'],
                                      **kwargs
                                      )
 
@@ -58,8 +58,8 @@ class SplitSequenceFile(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, c['stdout']))
-                os.remove(os.path.join(self.output_dir, c['stderr']))
+                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -80,16 +80,16 @@ class CreateAnnotateSequencePickle(Application):
     def __init__(self, **kwargs):
 
         gc3libs.log.info("Initialising {}".format(self.__class__.__name__))
-        c = config['create_and_annotate_sequence_pickles']
+        self.c = config['create_and_annotate_sequence_pickles']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", c['input'], "-o", c['output'], c['extra']],
+                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
-                                     stdout = c['stdout'],
-                                     stderr = c['stderr'],
-                                     output_dir = c['output'],
+                                     stdout = self.c['stdout'],
+                                     stderr = self.c['stderr'],
+                                     output_dir = self.c['output'],
                                      **kwargs
                                      )
 
@@ -112,8 +112,8 @@ class CreateAnnotateSequencePickle(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, c['stdout']))
-                os.remove(os.path.join(self.output_dir, c['stderr']))
+                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -133,16 +133,16 @@ class CreateHMMPickles(Application):
     def __init__(self, **kwargs):
 
         gc3libs.log.info("Initialising {}".format(self.__class__.__name__))
-        c = config['create_hmm_pickles']
+        self.c = config['create_hmm_pickles']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", c['input'], "-o", c['output'], c['extra']],
+                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
-                                     stdout = c['stdout'],
-                                     stderr = c['stderr'],
-                                     output_dir = c['output'],
+                                     stdout = self.c['stdout'],
+                                     stderr = self.c['stderr'],
+                                     output_dir = self.c['output'],
                                      **kwargs
                                      )
 
@@ -165,8 +165,8 @@ class CreateHMMPickles(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, c['stdout']))
-                os.remove(os.path.join(self.output_dir, c['stderr']))
+                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -187,16 +187,16 @@ class AnnotateTRsFromHmmer(Application):
     def __init__(self, jokes, **kwargs):
 
         gc3libs.log.info("Initialising {}".format(self.__class__.__name__))
-        c = config['annotate_TRs_from_hmmer']
+        self.c = config['annotate_TRs_from_hmmer']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", c['input'], "-o", c['output'], c['extra']],
+                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
-                                     stdout = c['stdout'],
-                                     stderr = c['stderr'],
-                                     output_dir = c['output'],
+                                     stdout = self.c['stdout'],
+                                     stderr = self.c['stderr'],
+                                     output_dir = self.c['output'],
                                      **kwargs
                                      )
 
@@ -219,8 +219,8 @@ class AnnotateTRsFromHmmer(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, c['stdout']))
-                os.remove(os.path.join(self.output_dir, c['stderr']))
+                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -240,16 +240,16 @@ class AnnotateDeNovo(Application):
     def __init__(self, jokes, **kwargs):
 
         gc3libs.log.info("Initialising {}".format(self.__class__.__name__))
-        c = config['annotate_de_novo']
+        self.c = config['annotate_de_novo']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", c['input'], "-o", c['output'], c['extra']],
+                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
-                                     stdout = c['stdout'],
-                                     stderr = c['stderr'],
-                                     output_dir = c['output'],
+                                     stdout = self.c['stdout'],
+                                     stderr = self.c['stderr'],
+                                     output_dir = self.c['output'],
                                      **kwargs
                                      )
 
@@ -272,8 +272,8 @@ class AnnotateDeNovo(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, c['stdout']))
-                os.remove(os.path.join(self.output_dir, c['stderr']))
+                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -293,16 +293,16 @@ class CalculateSignificance(Application):
     def __init__(self, jokes, **kwargs):
 
         gc3libs.log.info("Initialising {}".format(self.__class__.__name__))
-        c = config['calculate_significance']
+        self.c = config['calculate_significance']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", c['input'], "-o", c['output'], c['extra']],
+                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
-                                     stdout = c['stdout'],
-                                     stderr = c['stderr'],
-                                     output_dir = c['output'],
+                                     stdout = self.c['stdout'],
+                                     stderr = self.c['stderr'],
+                                     output_dir = self.c['output'],
                                      **kwargs
                                      )
 
@@ -325,8 +325,8 @@ class CalculateSignificance(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, c['stdout']))
-                os.remove(os.path.join(self.output_dir, c['stderr']))
+                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -347,16 +347,16 @@ class MergeAndBasicFilter(Application):
     def __init__(self, jokes, **kwargs):
 
         gc3libs.log.info("Initialising {}".format(self.__class__.__name__))
-        c = config['merge_and_basic_filter']
+        self.c = config['merge_and_basic_filter']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", c['input'], "-o", c['output'], c['extra']],
+                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
-                                     stdout = c['stdout'],
-                                     stderr = c['stderr'],
-                                     output_dir = c['output'],
+                                     stdout = self.c['stdout'],
+                                     stderr = self.c['stderr'],
+                                     output_dir = self.c['output'],
                                      **kwargs
                                      )
 
@@ -379,8 +379,8 @@ class MergeAndBasicFilter(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, c['stdout']))
-                os.remove(os.path.join(self.output_dir, c['stderr']))
+                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -401,16 +401,16 @@ class CalculateOverlap(Application):
     def __init__(self, jokes, **kwargs):
 
         gc3libs.log.info("Initialising {}".format(self.__class__.__name__))
-        c = config['calculate_overlap']
+        self.c = config['calculate_overlap']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", c['input'], "-o", c['output'], c['extra']],
+                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
-                                     stdout = c['stdout'],
-                                     stderr = c['stderr'],
-                                     output_dir = c['output'],
+                                     stdout = self.c['stdout'],
+                                     stderr = self.c['stderr'],
+                                     output_dir = self.c['output'],
                                      **kwargs
                                      )
 
@@ -433,8 +433,8 @@ class CalculateOverlap(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, c['stdout']))
-                os.remove(os.path.join(self.output_dir, c['stderr']))
+                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -514,16 +514,16 @@ class RefineDenovo(Application):
     def __init__(self, jokes, **kwargs):
 
         gc3libs.log.info("Initialising {}".format(self.__class__.__name__))
-        c = config['refine_denovo']
+        self.c = config['refine_denovo']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", c['input'], "-o", c['output'], c['extra']],
+                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
-                                     stdout = c['stdout'],
-                                     stderr = c['stderr'],
-                                     output_dir = c['output'],
+                                     stdout = self.c['stdout'],
+                                     stderr = self.c['stderr'],
+                                     output_dir = self.c['output'],
                                      **kwargs
                                      )
 
@@ -546,8 +546,8 @@ class RefineDenovo(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, c['stdout']))
-                os.remove(os.path.join(self.output_dir, c['stderr']))
+                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
@@ -568,16 +568,16 @@ class SerializeAnnotations(Application):
     def __init__(self, jokes, **kwargs):
 
         gc3libs.log.info("Initialising {}".format(self.__class__.__name__))
-        c = config['serialize_annotations']
+        self.c = config['serialize_annotations']
 
         gc3libs.Application.__init__(self,
-                                     arguments = [c['script'], "-i", c['input'], "-o", c['output'], c['extra']],
+                                     arguments = [c['script'], "-i", self.c['input'], "-o", self.c['output'], self.c['extra']],
                                      inputs = [],
                                      outputs = [],
                                      join = True,
-                                     stdout = c['stdout'],
-                                     stderr = c['stderr'],
-                                     output_dir = c['output'],
+                                     stdout = self.c['stdout'],
+                                     stderr = self.c['stderr'],
+                                     output_dir = self.c['output'],
                                      **kwargs
                                      )
 
@@ -600,8 +600,8 @@ class SerializeAnnotations(Application):
                 gc3libs.log.info("{} has run successfully to completion.".format(self.__class__.__name__))
                 # Now, clean up
                 # Delete all log files.
-                os.remove(os.path.join(self.output_dir, c['stdout']))
-                os.remove(os.path.join(self.output_dir, c['stderr']))
+                os.remove(os.path.join(self.output_dir, self.c['stdout']))
+                os.remove(os.path.join(self.output_dir, self.c['stderr']))
 
         else:
             gc3libs.log.info("{1} is not successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
