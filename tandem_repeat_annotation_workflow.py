@@ -49,7 +49,7 @@ class SplitSequenceFile(Application):
         if self.execution.returncode == 0:
             gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
-            if not os.path.isfile(c['output']):
+            if not os.path.isfile(self.c['output']):
                 gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
@@ -103,7 +103,7 @@ class CreateAnnotateSequencePickle(Application):
         if self.execution.returncode == 0:
             gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
-            if not os.path.isfile(c['output']):
+            if not os.path.isfile(self.c['output']):
                 gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
@@ -156,7 +156,7 @@ class CreateHMMPickles(Application):
         if self.execution.returncode == 0:
             gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
-            if not os.path.isfile(c['output']):
+            if not os.path.isfile(self.c['output']):
                 gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
@@ -210,7 +210,7 @@ class AnnotateTRsFromHmmer(Application):
         if self.execution.returncode == 0:
             gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
-            if not os.path.isfile(c['output']):
+            if not os.path.isfile(self.c['output']):
                 gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
@@ -263,7 +263,7 @@ class AnnotateDeNovo(Application):
         if self.execution.returncode == 0:
             gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
-            if not os.path.isfile(c['output']):
+            if not os.path.isfile(self.c['output']):
                 gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
@@ -316,7 +316,7 @@ class CalculateSignificance(Application):
         if self.execution.returncode == 0:
             gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
-            if not os.path.isfile(c['output']):
+            if not os.path.isfile(self.c['output']):
                 gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
@@ -370,7 +370,7 @@ class MergeAndBasicFilter(Application):
         if self.execution.returncode == 0:
             gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
-            if not os.path.isfile(c['output']):
+            if not os.path.isfile(self.c['output']):
                 gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
@@ -424,7 +424,7 @@ class CalculateOverlap(Application):
         if self.execution.returncode == 0:
             gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
-            if not os.path.isfile(c['output']):
+            if not os.path.isfile(self.c['output']):
                 gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
@@ -537,7 +537,7 @@ class RefineDenovo(Application):
         if self.execution.returncode == 0:
             gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
-            if not os.path.isfile(c['output']):
+            if not os.path.isfile(self.c['output']):
                 gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
@@ -591,7 +591,7 @@ class SerializeAnnotations(Application):
         if self.execution.returncode == 0:
             gc3libs.log.info("{1} claims to be successful: self.execution.returncode: {0}".format(self.execution.returncode, self.__class__.__name__))
             # Check if result file exists (Later: and complies to some rules).
-            if not os.path.isfile(c['output']):
+            if not os.path.isfile(self.c['output']):
                 gc3libs.log.info("{} has not produced an output file.".format(self.__class__.__name__))
                 self.execution.returncode = 1
                 self.status = "FREEZE"
