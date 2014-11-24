@@ -1,5 +1,8 @@
 #! /usr/bin/env python
 
+GLOBAL_OUTPUT_DIR = '/tmp'
+
+
 import os
 import os.path
 import sys
@@ -12,102 +15,173 @@ from gc3libs.cmdline import SessionBasedScript, _Script
 from gc3libs.workflow import SequentialTaskCollection, ParallelTaskCollection
 import gc3libs.utils
 
+import gc3libs.debug
+
+
+class StopOnError(object):
+    """
+    Mix-in class to make a `SequentialTaskCollection`:class: turn to STOPPED
+    state as soon as one of the tasks fail.
+    """
+    def next(self, done):
+        rc = self.tasks[done].execution.exitcode
+        if rc != 0:
+            return Run.State.STOPPED
+        else:
+            return Run.State.RUNNING
+
+
 ############################# Basic Applications/Tasks ###################################
 
-
 class A(Application):
-    def __init__(self, joke, **kwargs):
-
-        gc3libs.log.info("A")
-
-        gc3libs.Application.__init__(self,
-                                     arguments = ["/bin/myscript.py", "-o", "/path/to/A/out"],
-                                     inputs = [],
-                                     outputs = [],
-                                     #join = True,
-                                     stdout = "stdout.log",
-                                     stderr = "stderr.log",
-                                     **kwargs
-                                     )
-
-    def terminated(self):
-        gc3libs.log.info("A is NEVER done.")
-        self.execution.returncode = 1
-        self.whatever = 10
-
-        # read logfile
-        with open(os.path.join(self.output_directory, self.stdout), "r"):
-            1==1
-            #do stuff
-
-        # delete log files
-
-        # check whether output file exists.
-        # otherwise: exitstatus to failure.
-
-        self.execution.state = [TERMINATED, RUNNING, STOPPED, SUBMITTED.]
-        self.execution.returncode = []
-        self.error = last_line_of_log_file
-
-
-class B(Application):
-    def __init__(self, joke, path_to_A_files, **kwargs):
-
-        gc3libs.log.info("B")
-
-        gc3libs.Application.__init__(self,
-                                     arguments = ["/bin/myscript.py", "-i", os.path.join(path_to_A_files, joke), "$RANDOM"],
-                                     inputs = [],
-                                     outputs = [],
-                                     join = True,
-                                     stdout = "stdout.log",
-                                     output_dir = "./results/B_{}".format(joke),
-                                     **kwargs
-                                     )
+    @gc3libs.debug.trace
+    def __init__(self, k, outdir, **kwargs):
+        gc3libs.log.info("Creating A for producing %d output files", k)
+        self.k = k
+        self.outdir = outdir
+        gc3libs.Application.__init__(
+            self,
+            arguments = [
+                "./a2b.py",
+                "-o", (outdir + '/A'),
+                "-n", self.k,
+            ],
+            inputs = ['a2b.py'],
+            outputs = [],
+            #join = True,
+            stdout = "stdout.log",
+            stderr = "stderr.log",
+            **kwargs
+        )
 
     def terminated(self):
-        gc3libs.log.info("B is done.")
+        # check that files `A.1`, `A.2`, etc. have been produced
+        for j in range(self.k):
+            if not os.path.isfile(self.outdir + ("/A.%d" % j)):
+                self.execution.returncode = 1
+                return
+        self.execution.returncode = 0
 
 
+class ApplicationWithOneOutputFile(Application):
+
+        def terminated(self):
+            if not os.path.isfile(self.outfile):
+                self.execution.exitcode = 1
 
 
+class B(ApplicationWithOneOutputFile):
+    def __init__(self, infile, outfile, **kwargs):
+        self.infile = infile
+        self.outfile = outfile
+        gc3libs.Application.__init__(
+            self,
+            arguments = [
+                "./b2c.py",
+                "-i", infile,
+                "-o", outfile,
+            ],
+            inputs = ['b2c.py'],
+            outputs = [],
+            #join = True,
+            stdout = "stdout.log",
+            stderr = "stderr.log",
+            **kwargs
+        )
 
-class C(Application):
-    def __init__(self, joke, **kwargs):
 
-        gc3libs.log.info("C")
+class C(ApplicationWithOneOutputFile):
+    def __init__(self, infile, outfile, **kwargs):
+        self.infile = infile
+        self.outfile = outfile
+        gc3libs.Application.__init__(
+            self,
+            arguments = [
+                "./c2d.py",
+                "-i", infile,
+                "-o", outfile,
+            ],
+            inputs = ['c2d.py'],
+            outputs = [],
+            #join = True,
+            stdout = "stdout.log",
+            stderr = "stderr.log",
+            **kwargs
+        )
 
-        gc3libs.Application.__init__(self,
-                                     arguments = ["/bin/hostname"],
-                                     inputs = [],
-                                     outputs = [],
-                                     join = True,
-                                     stdout = "stdout.log",
-                                     output_dir = "./results/C_{}".format(joke),
-                                     **kwargs
-                                     )
+
+class D(ApplicationWithOneOutputFile):
+    def __init__(self, input_dir, outfile, **kwargs):
+
+        self.input_dir = input_dir
+        self.outfile = outfile
+
+        gc3libs.Application.__init__(
+            self,
+            arguments = [
+                "./d.py", input_dir,
+                "-o", outfile,
+            ],
+            inputs = ['d.py'],
+            outputs = [],
+            #join = True,
+            stdout = "stdout.log",
+            stderr = "stderr.log",
+            **kwargs
+        )
+
+
+######################## Support Classes / Workflow elements #############################
+
+
+class MainSequentialFlow(StopOnError, SequentialTaskCollection):
+    def __init__(self, k, **kwargs):
+        self.k = k
+
+        gc3libs.log.info("\t Calling MainSequentialFlow.__init({})".format(k))
+        SequentialTaskCollection.__init__(self, [
+            A(k, GLOBAL_OUTPUT_DIR, **kwargs),
+            MainParallelFlow(k ,GLOBAL_OUTPUT_DIR, **kwargs),
+            D(GLOBAL_OUTPUT_DIR, GLOBAL_OUTPUT_DIR + '/D.txt', **kwargs),
+        ], **kwargs)
 
     def terminated(self):
-        gc3libs.log.info("C is done.")
+        gc3libs.log.info("\t MainSequentialFlow.terminated [%s]" % self.execution.returncode)
 
 
-class D(Application):
-    def __init__(self, joke, **kwargs):
+class MainParallelFlow(ParallelTaskCollection):
+    @gc3libs.debug.trace
+    def __init__(self, k, output_dir_of_a, **kwargs):
+        self.k = k
+        self.output_dir_of_a = output_dir_of_a
 
-        gc3libs.log.info("D")
-
-        gc3libs.Application.__init__(self,
-                                     arguments = ["/bin/ps"],
-                                     inputs = [],
-                                     outputs = [],
-                                     join = True,
-                                     stdout = "stdout.log",
-                                     output_dir = "./results/D_{}".format(joke),
-                                     **kwargs
-                                     )
+        # use our knowledge of what A does (violates DRY, though)
+        self.tasks = [
+            InnerSequentialFlow(j, output_dir_of_a, **kwargs)
+            for j in range(k)
+        ]
+        ParallelTaskCollection.__init__(self, self.tasks, **kwargs)
 
     def terminated(self):
-        gc3libs.log.info("D is done.")
+        gc3libs.log.info("\t\tMainParallelFlow.terminated")
+
+
+class InnerSequentialFlow(StopOnError, SequentialTaskCollection):
+    @gc3libs.debug.trace
+    def __init__(self, j, output_dir_of_a, **kwargs):
+        # XXX: hard-code paths!
+        output_of_a = ("%s/A.%d" % (output_dir_of_a, j))
+        output_of_b = ("%s/B.%d" % (GLOBAL_OUTPUT_DIR, j))
+        output_of_c = ("%s/C.%d" % (GLOBAL_OUTPUT_DIR, j))
+
+        initial_tasks = [
+            B(output_of_a, output_of_b, **kwargs),
+            C(output_of_b, output_of_c, **kwargs),
+        ]
+        SequentialTaskCollection.__init__(self, initial_tasks, **kwargs)
+
+    def terminated(self):
+        gc3libs.log.info("\t\t\t\tInnerSequentialFlow.terminated [%d]" % self.execution.returncode)
 
 
 ############################# Main Session Creator (?) ###################################
@@ -121,95 +195,14 @@ class TestWorkflow(SessionBasedScript):
     def __init__(self):
         SessionBasedScript.__init__(
             self,
-            version = '0.0.1',
+            version = '0.0.2',
             )
 
     def setup_options(self):
-        self.add_param("-j", "--jokes", type=str, nargs="+",
-                       help="List of jokes")
-
-    def _make_session()
-
-    def parse_args(self):
-        self.jokes = self.params.jokes
-        gc3libs.log.info("TestWorkflow Jokes: {}".format(self.jokes))
-
+        self.add_param("-k", type=int, default=7, metavar="NUM", help="Number of parallel strands.")
 
     def new_tasks(self, kwargs):
-
-        #name = "myTestWorkflow"
-        gc3libs.log.info("Calling TestWorkflow.next_tasks()")
-
-        yield test_workflow.MainSequentialFlow(self.jokes, **kwargs)
-
-
-######################## Support Classes / Workflow elements #############################
-
-
-class MainSequentialFlow(SequentialTaskCollection):
-    def __init__(self, jokes, **kwargs):
-        self.jokes = jokes
-
-        gc3libs.log.info("\t Calling MainSequentialFlow.__init({})".format(jokes))
-
-        self.initial_task = A(jokes)
-
-        SequentialTaskCollection.__init__(self, [self.initial_task], **kwargs)
-
-    def next(self, iterator):
-        if iterator == 0:
-            self.add(MainParallelFlow(self.jokes))
-            return Run.State.RUNNING
-        elif iterator == 1:
-            self.add(D(self.jokes))
-            return Run.State.RUNNING
-        else:
-            return Run.State.TERMINATED
-
-    def terminated(self):
-        gc3libs.log.info("\t MainSequentialFlow.terminated [%s]" % self.execution.returncode)
-
-
-class MainParallelFlow(ParallelTaskCollection):
-
-    def __init__(self, jokes, **kwargs):
-
-        self.jokes = jokes
-        gc3libs.log.info("\t\tCalling MainParallelFlow.__init({})".format(self.jokes))
-
-        self.tasks = [InnerSequentialFlow(joke) for joke in self.jokes]
-
-        ParallelTaskCollection.__init__(self, self.tasks, **kwargs)
-
-    def terminated(self):
-        self.execution.returncode = 0
-        gc3libs.log.info("\t\tMainParallelFlow.terminated")
-
-
-
-class InnerSequentialFlow(SequentialTaskCollection):
-    def __init__(self, joke, **kwargs):
-
-        self.joke = joke
-        gc3libs.log.info("\t\t\t\tCalling InnerSequentialFlow.__init__ for joke: {}".format(self.joke))
-
-        self.job_name = joke
-        initial_task = B(joke)
-        SequentialTaskCollection.__init__(self, [initial_task], **kwargs)
-
-    def next(self, iterator):
-        if iterator == 0:
-            gc3libs.log.info("\t\t\t\tCalling InnerSequentialFlow.next(%d) ... " % int(iterator))
-            self.add(C(self.joke))
-            return Run.State.RUNNING
-        else:
-            self.execution.returncode = 0
-            return Run.State.TERMINATED
-
-    def terminated(self):
-        gc3libs.log.info("\t\t\t\tInnerSequentialFlow.terminated [%d]" % self.execution.returncode)
-
-
+        yield test_workflow.MainSequentialFlow(self.params.k, **kwargs)
 
 
 # run script

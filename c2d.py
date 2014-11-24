@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import random
 import sys
 
 
@@ -12,16 +13,17 @@ if __name__ == '__main__':
     parser.add_argument("-o", type=str, help="Path to output file")
     args = parser.parse_args()
 
+    # fail with 33% probability
+    if random.randint(0,3) == 0:
+        sys.exit(3)
+
     infile = open(args.i, 'r')
     num = int(infile.read())
 
-    # do the "half or triple plus one" thing
-    if (num % 2) == 0:
-        num /= 2
-    else:
+    # do the other half of the "half or triple plus one" thing
+    if (num % 2) != 0:
         num = 3*num + 1
 
-    # XXX: race condition!!!
-    outfile = open(args.o, 'a')
-    outfile.write(str(num) + '\n')
+    outfile = open(args.o, 'w')
+    outfile.write(str(num))
     outfile.close()

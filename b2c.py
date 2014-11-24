@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import random
 import sys
 
 
@@ -15,11 +16,14 @@ if __name__ == '__main__':
     infile = open(args.i, 'r')
     num = int(infile.read())
 
-    # fail if `num` is divisible by 3
-    if (num % 3) == 0:
+    # fail with 33% probability
+    if random.randint(0,3) == 0:
         sys.exit(3)
 
-    # else, write `num` unchanged
+    # do one half of the "half or triple plus one" thing
+    if (num % 2) == 0:
+        num /= 2
+
     outfile = open(args.o, 'w')
     outfile.write(str(num))
     outfile.close()
