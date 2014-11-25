@@ -24,11 +24,15 @@ class StopOnError(object):
     state as soon as one of the tasks fail.
     """
     def next(self, done):
-        rc = self.tasks[done].execution.exitcode
-        if rc != 0:
-            return Run.State.STOPPED
+        if done == len(self.tasks) - 1:
+            self.execution.returncode = self.tasks[done].execution.returncode
+            return Run.State.TERMINATED
         else:
-            return Run.State.RUNNING
+            rc = self.tasks[done].execution.exitcode
+            if rc != 0:
+                return Run.State.STOPPED
+            else:
+                return Run.State.RUNNING
 
 
 ############################# Basic Applications/Tasks ###################################
